@@ -21,7 +21,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Content="Usuario: " HorizontalAlignment="Left" Margin="-4,35,0,0" VerticalAlignment="Top" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="125"/>
-        <Label Content="Senha: " HorizontalAlignment="Left" Margin="24,95,0,0" VerticalAlignment="Top" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="100"/>
+        <Label Content="Senha12: " HorizontalAlignment="Left" Margin="0,98,0,0" VerticalAlignment="Top" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="100"/>
         <TextBox x:Name="txtUsuario" HorizontalAlignment="Left" Margin="125,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="224" Height="28" TabIndex="1" FontSize="18"/>
         <Button x:Name="btnOk" Content="Ok"  HorizontalAlignment="Left" Margin="57,165,0,0" Width="67" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnOk_Click" TabIndex="3" Height="21" VerticalAlignment="Top"/>
         <Button x:Name="btnCancela" Content="Cancelar" HorizontalAlignment="Left" Margin="279,159,0,0" Width="67" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnCancelar_Click" TabIndex="4" Height="27" VerticalAlignment="Top"/>
