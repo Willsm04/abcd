@@ -71,8 +71,8 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PerguntaseDeleta.xaml.cs">
-      <DependentUpon>PerguntaseDeleta.xaml</DependentUpon>
+    <Compile Include="Pergunta.xaml.cs">
+      <DependentUpon>Pergunta.xaml</DependentUpon>
     </Compile>
     <Compile Include="TelaDeAviso.xaml.cs">
       <DependentUpon>TelaDeAviso.xaml</DependentUpon>
@@ -90,7 +90,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PerguntaseDeleta.xaml">
+    <Page Include="Pergunta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
