@@ -1,0 +1,57 @@
+﻿<Window x:Class="Beauty_Motos.MainWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Beauty_Motos"
+        mc:Ignorable="d"
+        Title="Menu Principal" ResizeMode="NoResize" Height="450" Width="800" WindowStartupLocation="CenterScreen" Icon="Imagens/motorbike.png" WindowStyle="None">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFB9999" Offset="0.027"/>
+            <GradientStop Color="#FF5A0F0F" Offset="1"/>
+            <GradientStop Color="#FFFF7F7F" Offset="0.423"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid Margin="0,47,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+        <Menu Background="#FFF39A9A" BorderBrush="#FFD8D008" Margin="6,-42,0,0" RenderTransformOrigin="0.5,0.5" Height="29" VerticalAlignment="Top">
+            <Menu.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Menu.RenderTransform>
+            <MenuItem Header="Arquivo" FontFamily="Microsoft Sans Serif" Height="19">
+                <MenuItem x:Name="menuItemConectar" Header="Conectar" Click="EventoClickConectar"/>
+                <MenuItem x:Name="menuItemDesconectar" Header="Desconectar" Click="EventoClickDesconectar"/>
+            </MenuItem>
+
+
+            <MenuItem x:Name="menuItemCadastros" Header="Cadastros" FontFamily="Microsoft Sans Serif" Height="19">
+                <MenuItem x:Name="menuItemClientes" Header="Clientes" Click="EventoClickClientes">
+                    <MenuItem.Icon>
+                        <Image Source="Imagens/add-user.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="menuItemMotos" Header="Motos" Click="EventoClickMotos">
+                    <MenuItem.Icon>
+                        <Image Source ="Imagens/moto.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </MenuItem>
+        </Menu>
+
+        <Label x:Name="label" Content="Beauty Motos" HorizontalAlignment="Left" VerticalAlignment="Top" Height="74" Width="311" FontSize="40" FontFamily="Arial Black" HorizontalContentAlignment="Center" Margin="225,129,0,0"/>
+        <Button x:Name="Fechar" Content="X" HorizontalAlignment="Left" Margin="770,-47,0,0" VerticalAlignment="Top" Width="30" FontSize="20" FontWeight="Bold" Foreground="#FFF1E6E6" Background="#FFFB0000" BorderBrush="#FF290303" Click="EventoClickBtnFechar"/>
+    </Grid>
+</Window>
