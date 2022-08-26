@@ -8,33 +8,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Beauty_Motos
 {
-    internal class ClienteDB
+    public class ClienteDB
     {
-        public  ClienteDB(string nome, string telefone, string cpf, string logradouro, string cep, string bairro, string cidade)
-        {
-            Nome = nome;
-            Telefone = telefone;
-            CPF = cpf;
-            Logradouro = logradouro;
-            CEP = cep;
-            Bairro = bairro;
-            Cidade = cidade;
-        }   
+       public static List<Client> listaCliente = new List<Client>();
 
-        public string Nome { get; set; }
-        public string Telefone { get; set; }
-        public string CPF { get; private set; }
-        public string Logradouro { get; set; }
-        public string CEP { get; set; }
-        public string Cidade { get; set; }
-        public string Bairro { get; set; }
-
-        public string InsertNoSQL()
+        public static void CarregarDadosNoDataGrid(DataGrid dataGrid)
         {
 
+            listaCliente = new List<Client>();
+            dataGrid.ItemsSource = null;
+            string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+       
+            using (SqlConnection conexao = new SqlConnection(connstring))
+            {
+                conexao.Open();
+                SqlCommand comando = new SqlCommand($"SELECT * FROM TB_Cliente", conexao);
+                SqlDataReader reader = comando.ExecuteReader();
+                while (reader.Read())
+                {
+                   
+                    string nome = (string)reader["Nome"];
+                    string telefone = (string)reader["Telefone"];
+                    string cpf = (string)reader["CPF"];
+                    string logradouro = (string)reader["Logradouro"];
+                    string cep = (string)reader["CEP"];
+                    string bairro = (string)reader["Bairro"];  
+                    string cidade = (string)reader["Cidade"];
+
+                    Client clienteAux = new Client(nome, telefone, cpf, logradouro, cep, bairro, cidade);
+
+                    listaCliente.Add(clienteAux);
+
+                }
+
+                dataGrid.ItemsSource = listaCliente;
+                conexao.Close();
+            }
+        }
+
+        public static string InsertNoSQL(Client cliente)
+        {
+         
             string sql = @"INSERT INTO TB_Cliente
                                (Nome
                                ,Telefone
@@ -44,27 +62,29 @@ namespace Beauty_Motos
                                ,Bairro
                                ,Cidade)
                                 VALUES";
-            sql += "('" + Nome + "',";
-            sql += "'" + Convert.ToString(Telefone) + "',";
-            sql += "'" + Convert.ToString(CPF) + "',";
-            sql += "'" + Convert.ToString(Logradouro) + "',";
-            sql += "'" + Convert.ToString(CEP) + "',";
-            sql += "'" + Bairro + "',";
-            sql += "'" + Cidade + "');";
+            sql += "('" + cliente.Nome + "',";
+            sql += "'" + Convert.ToString(cliente.Telefone) + "',";
+            sql += "'" + Convert.ToString(cliente.CPF) + "',";
+            sql += "'" + Convert.ToString(cliente.Logradouro) + "',";
+            sql += "'" + Convert.ToString(cliente.CEP) + "',";
+            sql += "'" + cliente.Bairro + "',";
+            sql += "'" + cliente.Cidade + "');";
 
             return sql;
         }
-      
-        public bool AddClienteNoSQL()
+        static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+        static SqlConnection conexao = null;
+
+        public static bool AddClienteNoSQL(Client cliente)
         {
+            
             bool retorno = false;
             IDbTransaction transacao = null;
-            SqlConnection conexao = null;
             try
             {
-                
-                string sql = InsertNoSQL();
-                conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True" );
+             
+                string sql = InsertNoSQL(cliente);
+                conexao = new SqlConnection(stringConn);
                 SqlCommand cmd = new SqlCommand(sql, (SqlConnection)conexao, (SqlTransaction)transacao);
                 IDbCommand comando = (IDbCommand)cmd;
  
@@ -102,31 +122,28 @@ namespace Beauty_Motos
             }
         }
 
-        public string UpdateNoSQL()
+        public static string UpdateNoSQL(Client cliente)
         {
-       
             string sql = @"Update TB_Cliente 
                             SET ";
-            sql += "Nome = '" + Nome + "',";
-            sql += "Telefone = '" + Convert.ToString(Telefone) + "',";
-            sql += "CPF = '" + Convert.ToString(CPF) + "',";
-            sql += "Logradouro = '" + Logradouro + "',";
-            sql += "CEP = '" + Convert.ToString(CEP) + "',";
-            sql += "Bairro = '" + Bairro + "',";
-            sql += "Cidade = '" + Cidade + "'";
-            sql += " WHERE CPF = '" + CPF + "';";
+            sql += "Nome = '" + cliente.Nome + "',";
+            sql += "Telefone = '" + Convert.ToString(cliente.Telefone) + "',";
+            sql += "CPF = '" + Convert.ToString(cliente.CPF) + "',";
+            sql += "Logradouro = '" + cliente.Logradouro + "',";
+            sql += "CEP = '" + Convert.ToString(cliente.CEP) + "',";
+            sql += "Bairro = '" + cliente.Bairro + "',";
+            sql += "Cidade = '" + cliente.Cidade + "'";
+            sql += " WHERE CPF = '" + cliente.CPF + "';";
 
             return sql;
         }
-
-        public void AlterarDadosDoSQL()
-        {
-            SqlConnection conexao = null;
-            conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
-            
+       
+        public static void AlterarDadosDoSQL(Client cliente)
+        {     
+            conexao = new SqlConnection(stringConn); 
             try
             {
-                string sql = UpdateNoSQL();
+                string sql = UpdateNoSQL(cliente);
                 conexao.Open();
                 SqlCommand command = new SqlCommand(sql, conexao);
                 command.ExecuteNonQuery();
@@ -140,17 +157,15 @@ namespace Beauty_Motos
 
         }
 
-        public void DeletarClienteDoSQL()
+        public static void DeletarClienteDoSQL(Client cliente)
         {
-            SqlConnection conexao = null;
-            conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
-
+            ClienteDB.conexao = new SqlConnection(stringConn);
                 try
                 {
                     conexao.Open();
                     SqlCommand comando = conexao.CreateCommand();
                     comando.CommandType = CommandType.Text;
-                    comando.CommandText = "DELETE FROM TB_Cliente WHERE CPF = '" + CPF + "'";
+                    comando.CommandText = "DELETE FROM TB_Cliente WHERE CPF = '" + cliente.CPF + "'";
                     comando.ExecuteNonQuery();
                     conexao.Close();
 
@@ -162,17 +177,18 @@ namespace Beauty_Motos
         
         }
 
-        public void PesquisarCliente()
-        {
-            SqlConnection conexao = null;
-            conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
+       
+        public static void PesquisarCliente()
+        { 
+            Client cliente = new Client();
+            conexao = new SqlConnection(ClienteDB.stringConn);
 
             try
             {
                 conexao.Open();
                 SqlCommand comando = conexao.CreateCommand();
                 comando.CommandType = CommandType.Text;
-                comando.CommandText = "SELECT FROM TB_Cliente WHERE CPF = '" + CPF + "'";
+                comando.CommandText = "SELECT FROM TB_Cliente WHERE CPF = '" + cliente.CPF + "'";
                 comando.ExecuteNonQuery();
                 conexao.Close();
 
@@ -182,6 +198,22 @@ namespace Beauty_Motos
                 throw new Exception("Erro ao pesquisar dados no banco " + ex.Message);
             }
 
+        }
+       
+
+        public void BuscarPorCPF()
+        {
+            conexao = new SqlConnection(stringConn);
+            Client cliente = new Client();
+
+            try
+            {
+                conexao.Open();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

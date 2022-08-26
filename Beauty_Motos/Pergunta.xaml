@@ -13,8 +13,8 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
-        <Label x:Name="label" Content=" " HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="14.5" Margin="0,64,10,0" Height="28" Width="290"/>
-        <Image Source="Imagens/atencao.png" Margin="17,43,309,83"/>
+        <Label x:Name="label" Content=" " HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="14.5" Margin="0,64,11,0" Height="28" Width="300"/>
+        <Image Source="Imagens/atencao.png" Margin="8,46,318,89"/>
         <Button x:Name="btnSim" Content="Sim"  HorizontalAlignment="Left" Margin="60,132,0,0" Width="68" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnSim_Click" TabIndex="3" Height="22" VerticalAlignment="Top"/>
         <Button x:Name="btnNao" Content="Não"  HorizontalAlignment="Left" Margin="272,132,0,0" Width="68" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnNao_Click" TabIndex="3" Height="22" VerticalAlignment="Top"/>
 

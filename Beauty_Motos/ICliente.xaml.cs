@@ -22,51 +22,25 @@ namespace Beauty_Motos
             InitializeComponent(); 
         }
 
-
-        List<ClienteDB> listaCliente = new List<ClienteDB>();
-        public void CarregarDadosNoDataGrid()
+        private void HabilitaBtn()
         {
-            listaCliente = new List<ClienteDB>();
-            string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
-            dataGrid.ItemsSource = null;
-            using (SqlConnection conexao = new SqlConnection(connstring))
-            {        
-                conexao.Open();
-                SqlCommand comando = new SqlCommand($"SELECT * FROM TB_Cliente", conexao);
-                SqlDataReader reader = comando.ExecuteReader();
-                while (reader.Read())
-                {
-                    string cpf = (string)reader["CPF"];
-                    string nome = (string)reader["Nome"];
-                    string cep = (string)reader["CEP"];
-                    string logradouro = (string)reader["Logradouro"];
-                    string telefone = (string)reader["Telefone"];
-                    string bairro = (string)reader["Bairro"];
-                    string cidade = (string)reader["Cidade"];
-
-                    ClienteDB clienteDB = new ClienteDB(nome, telefone, cpf, logradouro, cep, bairro, cidade);
-
-                    listaCliente.Add(clienteDB);
-                   
-                }
-
-                dataGrid.ItemsSource = listaCliente;
-                conexao.Close();
-            }
+            if(txtNomeCompleto.Text != "" || txtTelefoneCelular.Text != "")
+                btnSalvar.IsEnabled = true;
+            else
+                btnSalvar.IsEnabled = false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             
-            CarregarDadosNoDataGrid();
+            ClienteDB.CarregarDadosNoDataGrid(dataGrid);
         }
         
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (var linha in listaCliente)
+            foreach (var linha in ClienteDB.listaCliente)
             {
                 if (dataGrid.SelectedItem == linha)
-                {
                     txtNomeCompleto.Text = linha.Nome;
                     txtTelefoneCelular.Text = linha.Telefone;
                     txtCPF.Text = linha.CPF;
@@ -74,8 +48,6 @@ namespace Beauty_Motos
                     txtCEP.Text = linha.CEP;
                     txtBairro.Text = linha.Bairro;
                     txtCidade.Text = linha.Cidade;
-                }
-
             }
         }
 
@@ -92,17 +64,14 @@ namespace Beauty_Motos
 
         public bool VerificarSeExiteCPFCliente()
         {
-        
-            bool retorno = true;;
-            foreach (var linha in listaCliente)
+            bool retorno = false;
+            foreach (var linha in ClienteDB.listaCliente)
             {
               
                 if (linha.CPF.Equals(txtCPF.Text))
-                {       
-                    retorno = false;    
-                     break;
-                }
-               
+                    
+                    retorno = true;    
+                     break;             
             }
             
             return retorno;
@@ -111,7 +80,7 @@ namespace Beauty_Motos
         private void btnPesquisar_Click(object sender, RoutedEventArgs e)
         {
  
-            foreach (var linha in listaCliente)
+            foreach (var linha in ClienteDB.listaCliente)
             {
                 if (txtPesquisa.Text.Equals(linha.CPF))
                 {
@@ -119,38 +88,53 @@ namespace Beauty_Motos
                 }
             }
         }
+
+        private void SalvarDadosDoFormulario()
+        {
+            Client cliente = new Client(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
+
+            if (Valida_FrmCliente.ValidarCamposDoFormCliente(cliente)) 
+            
+                if (VerificarSeExiteCPFCliente() == true)
+                    MessageBox.Show("CPF ja existente na base de dados", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                else
+                    ClienteDB.AddClienteNoSQL(cliente);
+                    ClienteDB.CarregarDadosNoDataGrid(dataGrid);
+                    MessageBox.Show("Cadastro concluido com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                    LimparCamposDoForm(); 
+        }
+
+        private void EventoClickBtnFechar(object sender, RoutedEventArgs e)
+        {
+            FrmPerguntaSeDeleta pergunta = new FrmPerguntaSeDeleta();
+            pergunta.label.Content = "Deseja salvar o cliente antes de sair?";
+            pergunta.ShowDialog();
+
+            if (pergunta.retorno == true)
+                SalvarDadosDoFormulario();
+
+            else
+                Close();
+        }
+
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
-              Valida_FrmCliente clsQueValida = new Valida_FrmCliente(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
-            if (clsQueValida.ValidarCamposDoFormCliente())
-            {
-                if (VerificarSeExiteCPFCliente() == false)
-                {
-                    MessageBox.Show("CPF ja existente na base de dados", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    ClienteDB clsClienteDB = new ClienteDB(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
-                    clsClienteDB.AddClienteNoSQL();
-                    CarregarDadosNoDataGrid();
-                    MessageBox.Show("Cadastro concluido com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LimparCamposDoForm();
-                }
-            }
-           
-
+            SalvarDadosDoFormulario();
         }
+
         private void btnAlterar_Click(object sender, RoutedEventArgs e)
         {
+            Client cliente = new Client(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text,  txtBairro.Text, txtCidade.Text);
+
             bool retorno = VerificarSeExiteCPFCliente();
-            ClienteDB clsClienteDB = new ClienteDB(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
             if (txtCPF.Text != "")
             {
-                if (retorno == false)
+                if (retorno == true)
                 {
-                    clsClienteDB.AlterarDadosDoSQL();
+                    ClienteDB.AlterarDadosDoSQL(cliente);
                     MessageBox.Show("Dados alterados com sucesso. ", "Mensagem de sucesso ", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CarregarDadosNoDataGrid();
+                    ClienteDB.CarregarDadosNoDataGrid(dataGrid);
                     LimparCamposDoForm();
                 }
                 else
@@ -164,7 +148,6 @@ namespace Beauty_Motos
         }
         private void btnDeletar_Click(object sender, RoutedEventArgs e)
         {
-            
             FrmPerguntaSeDeleta pergunta = new FrmPerguntaSeDeleta();
             pergunta.label.Content = "Deseja realmente excluir?";
             pergunta.ShowDialog();
@@ -176,10 +159,10 @@ namespace Beauty_Motos
                 }
                 else
                 {
-                    ClienteDB clsClienteDB = new ClienteDB(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
-                    clsClienteDB.DeletarClienteDoSQL();
+                    Client cliente = new Client(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
+                    ClienteDB.DeletarClienteDoSQL(cliente);
                     MessageBox.Show("Cliente excluido com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CarregarDadosNoDataGrid();
+                    ClienteDB.CarregarDadosNoDataGrid(dataGrid);
                     LimparCamposDoForm();
                 }
             }
@@ -195,11 +178,6 @@ namespace Beauty_Motos
             principal.menuItemClientes.IsEnabled = true;
             principal.menuItemDesconectar.IsEnabled = true;
             principal.menuItemConectar.IsEnabled = false;
-        }
-   
-        private void EventoClickBtnFechar(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
 
@@ -262,6 +240,28 @@ namespace Beauty_Motos
             BloquearNumerosDaTexbox(sender, e);
         }
 
-     
+        private void txtNomeCompleto_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtNomeCompleto.Text))
+            {
+                MessageBox.Show("Informe seu nome completo");
+                //txtNomeCompleto.Focus();
+            }
+        }
+
+        private void txtTelefoneCelular_LostFocus(object sender, RoutedEventArgs e)
+        {
+           if (string.IsNullOrEmpty(txtTelefoneCelular.Text))
+           {
+              
+               MessageBox.Show("Informe seu telefone");
+             //   txtTelefoneCelular.Focus();
+           }
+        }
+
+        private void txtNomeCompleto_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

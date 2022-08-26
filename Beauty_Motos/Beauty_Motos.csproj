@@ -62,9 +62,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Banco_de_Dados_ConcessionariaDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Classes\MotoDB.cs" />
     <Compile Include="Classes\Validacao_Login.cs" />
     <Compile Include="Classes\Valida_FrmCliente.cs" />
     <Compile Include="Classes\Valida_FrmMoto.cs" />
+    <Compile Include="Classes\Cliente.cs" />
+    <Compile Include="Classes\EnderecoCliente.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -78,7 +81,7 @@
       <DependentUpon>TelaDeAviso.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\ClienteDB.cs" />
-    <Page Include="Cliente.xaml">
+    <Page Include="ICliente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -98,8 +101,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Cliente.xaml.cs">
-      <DependentUpon>Cliente.xaml</DependentUpon>
+    <Compile Include="ICliente.xaml.cs">
+      <DependentUpon>ICliente.xaml</DependentUpon>
     </Compile>
     <Page Include="Motos.xaml">
       <SubType>Designer</SubType>

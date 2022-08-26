@@ -37,6 +37,7 @@ namespace Beauty_Motos
             dataGrid.ItemsSource = null;
             using (SqlConnection conexao = new SqlConnection(connstring))
             {
+
                 conexao.Open();
                 SqlCommand comando = new SqlCommand($"SELECT * FROM TB_Moto", conexao);
                 SqlDataReader reader = comando.ExecuteReader();

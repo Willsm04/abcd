@@ -54,7 +54,6 @@ namespace Beauty_Motos
             
             try
             {
-
                 string sql = Insert();
                 conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
                 SqlCommand cmd = new SqlCommand(sql, (SqlConnection)conexao, (SqlTransaction)transacao);
