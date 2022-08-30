@@ -14,12 +14,12 @@ namespace Beauty_Motos
 {
     public class ClienteDB
     {
-       public static List<Client> listaCliente = new List<Client>();
+       public static List<Cliente> listaCliente = new List<Cliente>();
 
         public static void CarregarDadosNoDataGrid(DataGrid dataGrid)
         {
 
-            listaCliente = new List<Client>();
+            listaCliente = new List<Cliente>();
             dataGrid.ItemsSource = null;
             string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
        
@@ -39,7 +39,7 @@ namespace Beauty_Motos
                     string bairro = (string)reader["Bairro"];  
                     string cidade = (string)reader["Cidade"];
 
-                    Client clienteAux = new Client(nome, telefone, cpf, logradouro, cep, bairro, cidade);
+                    Cliente clienteAux = new Cliente(nome, telefone, cpf, logradouro, cep, bairro, cidade);
 
                     listaCliente.Add(clienteAux);
 
@@ -50,7 +50,8 @@ namespace Beauty_Motos
             }
         }
 
-        public static string InsertNoSQL(Client cliente)
+
+        public static string InsertNoSQL(Cliente cliente)
         {
          
             string sql = @"INSERT INTO TB_Cliente
@@ -72,10 +73,11 @@ namespace Beauty_Motos
 
             return sql;
         }
+
         static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
         static SqlConnection conexao = null;
 
-        public static bool AddClienteNoSQL(Client cliente)
+        public static bool AddClienteNoSQL(Cliente cliente)
         {
             
             bool retorno = false;
@@ -122,7 +124,7 @@ namespace Beauty_Motos
             }
         }
 
-        public static string UpdateNoSQL(Client cliente)
+        public static string UpdateNoSQL(Cliente cliente)
         {
             string sql = @"Update TB_Cliente 
                             SET ";
@@ -138,7 +140,7 @@ namespace Beauty_Motos
             return sql;
         }
        
-        public static void AlterarDadosDoSQL(Client cliente)
+        public static void AlterarDadosDoSQL(Cliente cliente)
         {     
             conexao = new SqlConnection(stringConn); 
             try
@@ -157,7 +159,7 @@ namespace Beauty_Motos
 
         }
 
-        public static void DeletarClienteDoSQL(Client cliente)
+        public static void DeletarClienteDoSQL(Cliente cliente)
         {
             ClienteDB.conexao = new SqlConnection(stringConn);
                 try
@@ -180,7 +182,7 @@ namespace Beauty_Motos
        
         public static void PesquisarCliente()
         { 
-            Client cliente = new Client();
+            Cliente cliente = new Cliente();
             conexao = new SqlConnection(ClienteDB.stringConn);
 
             try
@@ -204,7 +206,7 @@ namespace Beauty_Motos
         public void BuscarPorCPF()
         {
             conexao = new SqlConnection(stringConn);
-            Client cliente = new Client();
+            Cliente cliente = new Cliente();
 
             try
             {

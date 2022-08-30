@@ -15,9 +15,9 @@ namespace Beauty_Motos
     /// <summary>
     /// Lógica interna para Cliente.xaml
     /// </summary>
-    public partial class Cliente : Window
+    public partial class ICliente : Window
     {
-        public Cliente()
+        public ICliente()
         {
             InitializeComponent(); 
         }
@@ -41,6 +41,7 @@ namespace Beauty_Motos
             foreach (var linha in ClienteDB.listaCliente)
             {
                 if (dataGrid.SelectedItem == linha)
+                {
                     txtNomeCompleto.Text = linha.Nome;
                     txtTelefoneCelular.Text = linha.Telefone;
                     txtCPF.Text = linha.CPF;
@@ -48,6 +49,13 @@ namespace Beauty_Motos
                     txtCEP.Text = linha.CEP;
                     txtBairro.Text = linha.Bairro;
                     txtCidade.Text = linha.Cidade;
+                    btnSalvar.IsEnabled = false;
+                    break;
+                }
+                else if(dataGrid.SelectedItem != linha)
+                {
+                    btnSalvar.IsEnabled = true;
+                }
             }
         }
 
@@ -64,17 +72,17 @@ namespace Beauty_Motos
 
         public bool VerificarSeExiteCPFCliente()
         {
-            bool retorno = false;
+            bool existeCPF = false;
             foreach (var linha in ClienteDB.listaCliente)
             {
-              
                 if (linha.CPF.Equals(txtCPF.Text))
-                    
-                    retorno = true;    
-                     break;             
+                {
+                    existeCPF = true;
+                    break;
+                }                              
             }
             
-            return retorno;
+            return existeCPF;
         }
 
         private void btnPesquisar_Click(object sender, RoutedEventArgs e)
@@ -91,18 +99,24 @@ namespace Beauty_Motos
 
         private void SalvarDadosDoFormulario()
         {
-            Client cliente = new Client(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
+            Cliente cliente = new Cliente(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
 
-            if (Valida_FrmCliente.ValidarCamposDoFormCliente(cliente)) 
-            
+            if (Valida_FrmCliente.ValidarCamposDoFormCliente(cliente))
+            {
                 if (VerificarSeExiteCPFCliente() == true)
+                {
                     MessageBox.Show("CPF ja existente na base de dados", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+                }
                 else
+                {
                     ClienteDB.AddClienteNoSQL(cliente);
                     ClienteDB.CarregarDadosNoDataGrid(dataGrid);
                     MessageBox.Show("Cadastro concluido com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LimparCamposDoForm(); 
+                    LimparCamposDoForm();
+                }
+                   
+            }
+                     
         }
 
         private void EventoClickBtnFechar(object sender, RoutedEventArgs e)
@@ -112,10 +126,15 @@ namespace Beauty_Motos
             pergunta.ShowDialog();
 
             if (pergunta.retorno == true)
+            {
                 SalvarDadosDoFormulario();
-
-            else
                 Close();
+            }
+            else
+            {
+                Close();
+            }
+              
         }
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
@@ -125,48 +144,54 @@ namespace Beauty_Motos
 
         private void btnAlterar_Click(object sender, RoutedEventArgs e)
         {
-            Client cliente = new Client(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text,  txtBairro.Text, txtCidade.Text);
-
-            bool retorno = VerificarSeExiteCPFCliente();
             if (txtCPF.Text != "")
             {
-                if (retorno == true)
+                if (VerificarSeExiteCPFCliente() == true)
                 {
+                    Cliente cliente = new Cliente(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
                     ClienteDB.AlterarDadosDoSQL(cliente);
                     MessageBox.Show("Dados alterados com sucesso. ", "Mensagem de sucesso ", MessageBoxButton.OK, MessageBoxImage.Information);
                     ClienteDB.CarregarDadosNoDataGrid(dataGrid);
                     LimparCamposDoForm();
                 }
                 else
+                {
                     MessageBox.Show("CPF inexistente na base de dados.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+                }         
             }
-            else  
-                MessageBox.Show("CPF inexistente na base de dados.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-            
-
+            else
+            {
+                MessageBox.Show("Informe o CPF do cliente.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+               
         }
+
         private void btnDeletar_Click(object sender, RoutedEventArgs e)
         {
             FrmPerguntaSeDeleta pergunta = new FrmPerguntaSeDeleta();
             pergunta.label.Content = "Deseja realmente excluir?";
             pergunta.ShowDialog();
+
             if (pergunta.retorno == true)
             {
-                if (string.IsNullOrEmpty(txtCPF.Text))
+                if (VerificarSeExiteCPFCliente() == false)
                 {
-                    MessageBox.Show("Digite ou selecione o CPF que você deseja excluir.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);        
+                    MessageBox.Show("CPF inexistente na base de dados.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);        
                 }
                 else
                 {
-                    Client cliente = new Client(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
+                    Cliente cliente = new Cliente(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
                     ClienteDB.DeletarClienteDoSQL(cliente);
                     MessageBox.Show("Cliente excluido com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
                     ClienteDB.CarregarDadosNoDataGrid(dataGrid);
                     LimparCamposDoForm();
                 }
             }
-           
+            else
+            {
+                MessageBox.Show("Informe o CPF do cliente.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
           
         private void btnVoltar_Click(object sender, RoutedEventArgs e)

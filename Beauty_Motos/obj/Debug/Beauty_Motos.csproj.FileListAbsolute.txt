@@ -29,7 +29,6 @@ C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Mot
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Login.g.cs
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\MainWindow.g.cs
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Pergunta.g.cs
-C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Motos.g.cs
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\TelaDeAviso.g.cs
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\App.g.cs
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Beauty_Motos_MarkupCompile.cache
@@ -42,7 +41,6 @@ C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Mot
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Login.baml
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\MainWindow.baml
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Pergunta.baml
-C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Motos.baml
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\TelaDeAviso.baml
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Beauty_Motos.g.resources
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Beauty_Motos.Properties.Resources.resources
@@ -50,3 +48,5 @@ C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Mot
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\Beauty_Motos.csproj.CoreCompileInputs.cache
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\ICliente.g.cs
 C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\ICliente.baml
+C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\IMoto.g.cs
+C:\Users\willian.meireles\Desktop\Projeto Consercionaria\Beauty_Motos\Beauty_Motos\obj\Debug\IMoto.baml

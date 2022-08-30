@@ -74,6 +74,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Moto.cs" />
     <Compile Include="Pergunta.xaml.cs">
       <DependentUpon>Pergunta.xaml</DependentUpon>
     </Compile>
@@ -104,7 +105,7 @@
     <Compile Include="ICliente.xaml.cs">
       <DependentUpon>ICliente.xaml</DependentUpon>
     </Compile>
-    <Page Include="Motos.xaml">
+    <Page Include="IMoto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,8 +116,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Mascara_Texbox.cs" />
-    <Compile Include="Motos.xaml.cs">
-      <DependentUpon>Motos.xaml</DependentUpon>
+    <Compile Include="IMoto.xaml.cs">
+      <DependentUpon>IMoto.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

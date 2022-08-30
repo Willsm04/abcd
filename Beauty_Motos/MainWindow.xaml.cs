@@ -43,7 +43,7 @@ namespace Beauty_Motos
 
         private void EventoClickClientes(object sender, RoutedEventArgs e)
         {
-            Cliente f = new Cliente();
+            ICliente f = new ICliente();
             f.Show();
             Close();
         }
@@ -51,6 +51,7 @@ namespace Beauty_Motos
         private void EventoClickDesconectar(object sender, RoutedEventArgs e)
         {
             TelaDeAviso aviso = new TelaDeAviso();
+            aviso.label.Content = "Deseja relamente se desconectar ?";
             aviso.ShowDialog();
             Close();
             

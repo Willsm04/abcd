@@ -9,7 +9,7 @@ namespace Beauty_Motos
 {
     internal class Valida_FrmCliente
     {
-        public static bool ValidarCamposDoFormCliente(Client client)
+        public static bool ValidarCamposDoFormCliente(Cliente client)
         {
 
             bool retorno = true;

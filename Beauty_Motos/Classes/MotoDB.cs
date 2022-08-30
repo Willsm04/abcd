@@ -1,34 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Controls;
 
 namespace Beauty_Motos
 {
     internal class MotoDB
     {
-        public MotoDB(string id, string nomeMoto, string cat, string preco, string dataFabricacao)
+
+      public static List<Moto> listaMoto = new List<Moto>();
+        public static void CarregarDadosNoDataGrid(DataGrid datagrid)
         {
-            Id = id;
-            NomeMoto = nomeMoto;
-            Cat = cat;
-            Preco = preco;
-            DataFabricacao = dataFabricacao;
+            listaMoto = new List<Moto>();
+            string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+            datagrid.ItemsSource = null;
+            using (SqlConnection conexao = new SqlConnection(connstring))
+            {
+
+                conexao.Open();
+                SqlCommand comando = new SqlCommand($"SELECT * FROM TB_Moto", conexao);
+                SqlDataReader reader = comando.ExecuteReader();
+                while (reader.Read())
+                {
+                    string idMoto = (string)reader["IdMoto"];
+                    string nome = (string)reader["Nome"];
+                    string categoria = (string)reader["Categoria"];
+                    string preco = (string)reader["Preco"];
+                    string dataFabricacao = (string)reader["DataFabricacao"];
+
+                    Moto moto = new Moto(idMoto, nome, categoria, preco, dataFabricacao);
+
+                    listaMoto.Add(moto);
+
+                }
+
+                datagrid.ItemsSource = listaMoto;
+                conexao.Close();
+            }
         }
 
-
-        public string Id { get; set; }
-        public string NomeMoto { get; set; }
-        public string Cat { get; set; }
-        public string Preco { get; set; }
-        public string DataFabricacao { get; set; }
-
-        SqlConnection conexao = null;
-        public string Insert()
+        public static string Insert(Moto moto)
         {
             string sql = @"INSERT INTO TB_Moto
                                (IdMoto
@@ -37,25 +53,26 @@ namespace Beauty_Motos
                                ,Preco
                                ,DataFabricacao)
                                 VALUES";
-            sql += "('" + Id + "',";
-            sql += "'" + NomeMoto + "',";
-            sql += "'" + Cat + "',";
-            sql += "'" + Convert.ToString(Preco) + "',";
-            sql += "'" + Convert.ToString(DataFabricacao) + "');";
+            sql += "('" + moto.Id + "',";
+            sql += "'" + moto.NomeMoto + "',";
+            sql += "'" + moto.Cat + "',";
+            sql += "'" + Convert.ToString(moto.Preco) + "',";
+            sql += "'" + Convert.ToString(moto.DataFabricacao) + "');";
 
             return sql;
         }
 
-        public bool AddMotoNoSQL()
+        static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+        static SqlConnection conexao = null;
+
+        public static bool AddMotoNoSQL(Moto moto)
         {
             bool retorno = false;
-            IDbTransaction transacao = null;
-            SqlConnection conexao = null;
-            
+            IDbTransaction transacao = null;           
             try
             {
-                string sql = Insert();
-                conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
+                string sql = Insert(moto);
+                conexao = new SqlConnection(stringConn);
                 SqlCommand cmd = new SqlCommand(sql, (SqlConnection)conexao, (SqlTransaction)transacao);
                 IDbCommand comando = (IDbCommand)cmd;
 
@@ -94,26 +111,26 @@ namespace Beauty_Motos
 
         }
 
-        public string Update()
+        public static string Update(Moto moto)
         {
             string sql = @"UPDATE TB_Moto
                             SET ";
-            sql += "IdMoto = '" + Id + "',";
-            sql += "Nome = '" + NomeMoto + "',";
-            sql += "Categoria = '" + Cat + "',";
-            sql += "Preco = '" + Convert.ToString(Preco) + "',";
-            sql += "DataFabricacao = '" + Convert.ToString(DataFabricacao) + "'";
-            sql += "WHERE IdMoto = '" + Id + "';";
+            sql += "IdMoto = '" + moto.Id + "',";
+            sql += "Nome = '" + moto.NomeMoto + "',";
+            sql += "Categoria = '" + moto.Cat + "',";
+            sql += "Preco = '" + Convert.ToString(moto.Preco) + "',";
+            sql += "DataFabricacao = '" + Convert.ToString(moto.DataFabricacao) + "'";
+            sql += "WHERE IdMoto = '" + moto.Id + "';";
             return sql;
         }
            
-        public bool AlterarDadosDoSQL()
+        public static bool AlterarDadosDoSQL(Moto moto)
         {
-            conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
+            conexao = new SqlConnection(stringConn);
             bool retorno = false;
             try
             {
-                string sql = Update();
+                string sql = Update(moto);
                 conexao.Open();
                 SqlCommand command = new SqlCommand(sql, conexao);
                 command.ExecuteNonQuery();
@@ -127,18 +144,18 @@ namespace Beauty_Motos
             return retorno;
         }
 
-        public bool DeletarMotoDoSQL()
+        public static bool DeletarMotoDoSQL(Moto moto)
         {
             bool retorno = false;
-            
-            conexao = new SqlConnection(@"Data Source = WK-DEV-06; Initial Catalog = Banco de Dados Concessionaria; Integrated Security = True");
+
+            conexao = new SqlConnection(stringConn);
 
             try
             {
                 conexao.Open();
                 SqlCommand comando = conexao.CreateCommand();
                 comando.CommandType = CommandType.Text;
-                comando.CommandText = "DELETE FROM TB_Moto WHERE IdMoto = '" + Id + "'";
+                comando.CommandText = "DELETE FROM TB_Moto WHERE IdMoto = '" + moto.Id + "'";
                 comando.ExecuteNonQuery();
                 conexao.Close();
 

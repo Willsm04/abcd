@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Beauty_Motos
 {
-    public class Client
+    public class Cliente
     {
-       public Client(string nome, string telefone, string cpf, string logradouro, string cep,  string cidade, string bairro)
+       public Cliente(string nome, string telefone, string cpf, string logradouro, string cep,  string cidade, string bairro)
        {
             Nome = nome;
             Telefone = telefone;
@@ -18,7 +18,7 @@ namespace Beauty_Motos
             Cidade = cidade;
             Bairro = bairro;
         }
-        public Client()
+        public Cliente()
         {
         }
 
