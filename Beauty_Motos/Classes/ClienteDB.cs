@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace Beauty_Motos
 
         public static void CarregarDadosNoDataGrid(DataGrid dataGrid)
         {
-
             listaCliente = new List<Cliente>();
             dataGrid.ItemsSource = null;
             string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
@@ -39,9 +39,9 @@ namespace Beauty_Motos
                     string bairro = (string)reader["Bairro"];  
                     string cidade = (string)reader["Cidade"];
 
-                    Cliente clienteAux = new Cliente(nome, telefone, cpf, logradouro, cep, bairro, cidade);
+                    Cliente cliente = new Cliente(nome, telefone, cpf, logradouro, cep, bairro, cidade);
 
-                    listaCliente.Add(clienteAux);
+                    listaCliente.Add(cliente);
 
                 }
 
@@ -64,18 +64,18 @@ namespace Beauty_Motos
                                ,Cidade)
                                 VALUES";
             sql += "('" + cliente.Nome + "',";
-            sql += "'" + Convert.ToString(cliente.Telefone) + "',";
-            sql += "'" + Convert.ToString(cliente.CPF) + "',";
+            sql += "'" + Convert.ToString(Mascara_Texbox.RemoveMascara(cliente.Telefone)) + "',";
+            sql += "'" + Convert.ToString(Mascara_Texbox.RemoveMascara(cliente.CPF)) + "',";
             sql += "'" + Convert.ToString(cliente.Logradouro) + "',";
-            sql += "'" + Convert.ToString(cliente.CEP) + "',";
+            sql += "'" + Convert.ToString(Mascara_Texbox.RemoveMascara(cliente.CEP)) + "',";
             sql += "'" + cliente.Bairro + "',";
             sql += "'" + cliente.Cidade + "');";
 
             return sql;
         }
 
-        static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
-        static SqlConnection conexao = null;
+      public  static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+      public  static SqlConnection conexao = null;
 
         public static bool AddClienteNoSQL(Cliente cliente)
         {
@@ -112,7 +112,7 @@ namespace Beauty_Motos
                 return retorno;
 
             }
-            catch (Exception ex)
+            catch (OleDbException ex)
             {
                 if (transacao != null) transacao.Rollback();
                 throw new Exception("Erro ao inserir dados no banco " + ex.Message);
@@ -129,10 +129,10 @@ namespace Beauty_Motos
             string sql = @"Update TB_Cliente 
                             SET ";
             sql += "Nome = '" + cliente.Nome + "',";
-            sql += "Telefone = '" + Convert.ToString(cliente.Telefone) + "',";
-            sql += "CPF = '" + Convert.ToString(cliente.CPF) + "',";
+            sql += "Telefone = '" + Convert.ToString(Mascara_Texbox.RemoveMascara(cliente.Telefone)) + "',";
+            sql += "CPF = '" + Convert.ToString(Mascara_Texbox.RemoveMascara(cliente.CPF)) + "',";
             sql += "Logradouro = '" + cliente.Logradouro + "',";
-            sql += "CEP = '" + Convert.ToString(cliente.CEP) + "',";
+            sql += "CEP = '" + Convert.ToString(Mascara_Texbox.RemoveMascara(cliente.CEP)) + "',";
             sql += "Bairro = '" + cliente.Bairro + "',";
             sql += "Cidade = '" + cliente.Cidade + "'";
             sql += " WHERE CPF = '" + cliente.CPF + "';";
@@ -149,19 +149,21 @@ namespace Beauty_Motos
                 conexao.Open();
                 SqlCommand command = new SqlCommand(sql, conexao);
                 command.ExecuteNonQuery();
-                conexao.Close();
             }
-
-            catch (Exception ex)
+            catch (DbException ex)
             {
                 throw new Exception("Erro ao alterar dados no banco " + ex.Message);
+            }
+            finally
+            {
+                conexao.Close();
             }
 
         }
 
         public static void DeletarClienteDoSQL(Cliente cliente)
         {
-            ClienteDB.conexao = new SqlConnection(stringConn);
+                conexao = new SqlConnection(stringConn);
                 try
                 {
                     conexao.Open();
@@ -169,53 +171,24 @@ namespace Beauty_Motos
                     comando.CommandType = CommandType.Text;
                     comando.CommandText = "DELETE FROM TB_Cliente WHERE CPF = '" + cliente.CPF + "'";
                     comando.ExecuteNonQuery();
-                    conexao.Close();
-
                 }
-                catch (Exception ex)
+                catch (DbException ex)
                 {
                     throw new Exception("Erro ao excluir dados no banco " + ex.Message);
-                }   
-        
+                }
+                finally
+                {
+                     conexao.Close();
+                }
         }
 
        
-        public static void PesquisarCliente()
-        { 
-            Cliente cliente = new Cliente();
-            conexao = new SqlConnection(ClienteDB.stringConn);
-
-            try
-            {
-                conexao.Open();
-                SqlCommand comando = conexao.CreateCommand();
-                comando.CommandType = CommandType.Text;
-                comando.CommandText = "SELECT FROM TB_Cliente WHERE CPF = '" + cliente.CPF + "'";
-                comando.ExecuteNonQuery();
-                conexao.Close();
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao pesquisar dados no banco " + ex.Message);
-            }
-
-        }
+       
        
 
         public void BuscarPorCPF()
         {
-            conexao = new SqlConnection(stringConn);
-            Cliente cliente = new Cliente();
-
-            try
-            {
-                conexao.Open();
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            string sql = @"SELECT * FROM TB_Cliente CPF LIKE%";
         }
     }
 }

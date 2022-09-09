@@ -154,10 +154,8 @@ namespace Beauty_Motos
         }
         private void txtDataFabricacao_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var mascara = new Mascara_Texbox();
-            txtDataFabricacao.Text = mascara.MascarDataFabricacao(txtDataFabricacao.Text);
+            txtDataFabricacao.Text = Mascara_Texbox.MascarDataFabricacao(txtDataFabricacao.Text);
         }
-
 
         private void BloquearLetrasDaTexbox(object sender, TextCompositionEventArgs e)
         {

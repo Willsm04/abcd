@@ -24,7 +24,7 @@ namespace Beauty_Motos
 
         public string Nome { get; set; }
         public string Telefone { get; set; }
-        public string CPF { get; private set; }
+        public string CPF { get; set; }
         public string Logradouro { get; set; }
         public string CEP { get; set; }
         public string Cidade { get; set; }

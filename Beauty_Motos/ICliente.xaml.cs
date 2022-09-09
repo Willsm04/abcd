@@ -24,16 +24,22 @@ namespace Beauty_Motos
 
         private void HabilitaBtn()
         {
-            if(txtNomeCompleto.Text != "" || txtTelefoneCelular.Text != "")
-                btnSalvar.IsEnabled = true;
-            else
+            if (dataGrid.SelectedItem == dataGrid.SelectedCells)
+            {
                 btnSalvar.IsEnabled = false;
+
+            }
+            else
+            {
+                btnSalvar.IsEnabled = true;
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             
             ClienteDB.CarregarDadosNoDataGrid(dataGrid);
+           
         }
         
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -52,11 +58,10 @@ namespace Beauty_Motos
                     btnSalvar.IsEnabled = false;
                     break;
                 }
-                else if(dataGrid.SelectedItem != linha)
-                {
-                    btnSalvar.IsEnabled = true;
-                }
+                else
+                    btnSalvar.IsEnabled = true;   
             }
+            
         }
 
         public void LimparCamposDoForm()
@@ -75,7 +80,7 @@ namespace Beauty_Motos
             bool existeCPF = false;
             foreach (var linha in ClienteDB.listaCliente)
             {
-                if (linha.CPF.Equals(txtCPF.Text))
+                if (linha.CPF.Equals(Mascara_Texbox.RemoveMascara(txtCPF.Text)))
                 {
                     existeCPF = true;
                     break;
@@ -87,13 +92,13 @@ namespace Beauty_Motos
 
         private void btnPesquisar_Click(object sender, RoutedEventArgs e)
         {
- 
-            foreach (var linha in ClienteDB.listaCliente)
+            if (txtPesquisa.Text.Length < 14)
             {
-                if (txtPesquisa.Text.Equals(linha.CPF))
-                {
-                    
-                }
+                MessageBox.Show("Informe os onze digitos do cpf.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                PesquisarCliente();
             }
         }
 
@@ -108,7 +113,7 @@ namespace Beauty_Motos
                     MessageBox.Show("CPF ja existente na base de dados", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
-                {
+                {  
                     ClienteDB.AddClienteNoSQL(cliente);
                     ClienteDB.CarregarDadosNoDataGrid(dataGrid);
                     MessageBox.Show("Cadastro concluido com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -191,9 +196,16 @@ namespace Beauty_Motos
             {
                 MessageBox.Show("Informe o CPF do cliente.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
+            
         }
-          
+
+        public void PesquisarCliente()
+        {
+                var consulta = ClienteDB.listaCliente.Where(cliente => cliente.CPF == Mascara_Texbox.RemoveMascara(txtPesquisa.Text));
+                dataGrid.ItemsSource = consulta;
+                // var consulta = from cliente in ClienteDB.listaCliente where cliente.CPF == txtpesquisa select cliente;
+        }
+
         private void btnVoltar_Click(object sender, RoutedEventArgs e)
         {
             MainWindow1 principal = new MainWindow1();
@@ -208,24 +220,17 @@ namespace Beauty_Motos
 
         private void txtTelefoneCelular_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var mascara = new Mascara_Texbox();
-            txtTelefoneCelular.Text = mascara.MascaraTelefoneCelular(txtTelefoneCelular.Text);
+            txtTelefoneCelular.Text = Mascara_Texbox.MascaraTelefoneCelular(txtTelefoneCelular.Text);
         }
         private void txtCPF_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var mascara = new Mascara_Texbox();
-            txtCPF.Text = mascara.MascaraCpf(txtCPF.Text);
+            txtCPF.Text = Mascara_Texbox.MascaraCpf(txtCPF.Text);
         }
         private void txtCEP_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var mascara = new Mascara_Texbox();
-            txtCEP.Text = mascara.MascaraCep(txtCEP.Text);
+            txtCEP.Text = Mascara_Texbox.MascaraCep(txtCEP.Text);
         }
-        private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var mascara = new Mascara_Texbox();
-            txtPesquisa.Text = mascara.MascaraCpf(txtPesquisa.Text);
-        }
+       
 
         private void BloquearLetrasDaTexbox(object sender, TextCompositionEventArgs e)
         {
@@ -287,6 +292,11 @@ namespace Beauty_Motos
         private void txtNomeCompleto_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtPesquisa.Text = Mascara_Texbox.MascaraCpf(txtPesquisa.Text);
         }
     }
 }

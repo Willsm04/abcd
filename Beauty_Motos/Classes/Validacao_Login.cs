@@ -22,23 +22,21 @@ namespace Beauty_Motos
 
         public bool ValidaLogin()
         {
-            bool senha = true;
+            bool senha = false;
 
             if (string.IsNullOrEmpty(Usuario))
-            {
                 MessageBox.Show("Informe o seu usuario", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                senha = false;
-            }
+
             else if (Senha != passwordUser)
-            { 
                 MessageBox.Show("Senha inválida", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                senha = false;          
-            }
+
             else
             {
-                MessageBox.Show("Bem vindo " + Usuario, "Mensagem de Sucesso",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show($"Bem vindo {Usuario}", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information); 
+                senha = true; 
                 Senha = passwordUser;
             }
+
             return senha;
         }
     }

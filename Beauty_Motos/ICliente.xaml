@@ -39,7 +39,7 @@
         <DataGrid x:Name="dataGrid" Margin="823,183,33,90" AutoGenerateColumns="true" SelectionMode="Extended" SelectionUnit="FullRow" SelectionChanged="dataGrid_SelectionChanged" />
         <Button x:Name="btnDeletar" Content="Deletar" HorizontalAlignment="Left" Margin="921,594,0,0" Width="107" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnDeletar_Click" TabIndex="9" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.495,0.609"/>
         <Button x:Name="btnAlterar" Content="Alterar" HorizontalAlignment="Left" Margin="1207,593,0,0" Width="107" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnAlterar_Click" TabIndex="10" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.495,0.609"/>
-        <TextBox x:Name="txtPesquisa" TextChanged="txtPesquisa_TextChanged" MaxLength="14" HorizontalAlignment="Left" Margin="464,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="501" FontSize="23" MaxLines="1" TabIndex="0" BorderBrush="#FF989898" PreviewTextInput="txtCPF_PreviewTextInput"/>
+        <TextBox x:Name="txtPesquisa"  MaxLength="14" HorizontalAlignment="Left" Margin="464,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="501" FontSize="23" MaxLines="1" TabIndex="0" BorderBrush="#FF989898" PreviewTextInput="txtCPF_PreviewTextInput" TextChanged="txtPesquisa_TextChanged"/>
         <Button x:Name="btnPesquisar" Content="Pesquisar" HorizontalAlignment="Left" Margin="1012,107,0,0" Width="114" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnPesquisar_Click" TabIndex="0" Height="35" VerticalAlignment="Top" RenderTransformOrigin="2.582,16.573"/>
 
 
