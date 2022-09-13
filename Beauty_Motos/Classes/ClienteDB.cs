@@ -50,7 +50,7 @@ namespace Beauty_Motos
             }
         }
 
-
+        #region CRUD
         public static string InsertNoSQL(Cliente cliente)
         {
          
@@ -74,8 +74,8 @@ namespace Beauty_Motos
             return sql;
         }
 
-      public  static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
-      public  static SqlConnection conexao = null;
+        public  static string stringConn = System.Configuration.ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+        public  static SqlConnection conexao = null;
 
         public static bool AddClienteNoSQL(Cliente cliente)
         {
@@ -181,14 +181,8 @@ namespace Beauty_Motos
                      conexao.Close();
                 }
         }
+        #endregion
 
-       
-       
-       
 
-        public void BuscarPorCPF()
-        {
-            string sql = @"SELECT * FROM TB_Cliente CPF LIKE%";
-        }
     }
 }

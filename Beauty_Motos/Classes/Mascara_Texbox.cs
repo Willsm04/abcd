@@ -19,18 +19,27 @@ namespace Beauty_Motos
       
         public static string MascaraTelefoneCelular(string telefoneCliente)
         {
-            if (!string.IsNullOrEmpty(telefoneCliente))
+            try
             {
-                string telefoneSemParenteses = telefoneCliente.Replace("(", "").Replace(")", "");
-                long telefone = Convert.ToInt64(telefoneSemParenteses);
-
-                if (telefoneSemParenteses.Length == 11)
+                if (!string.IsNullOrEmpty(telefoneCliente))
                 {
-                    string telefoneComMascara = string.Format(@"{0:(00)000000000}", telefone);
-                    telefoneCliente = telefoneComMascara;
+                    string telefoneSemParenteses = telefoneCliente.Replace("(", "").Replace(")", "");
+                    long telefone = Convert.ToInt64(telefoneSemParenteses);
+
+                    if (telefoneSemParenteses.Length == 11)
+                    {
+                        string telefoneComMascara = string.Format(@"{0:(00)000000000}", telefone);
+                        telefoneCliente = telefoneComMascara;
+                    }
                 }
+                return telefoneCliente;
+
             }
-            return telefoneCliente;
+            catch(FormatException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
 
         }
 

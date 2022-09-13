@@ -19,27 +19,22 @@ namespace Beauty_Motos
     {
         public ICliente()
         {
-            InitializeComponent(); 
+            InitializeComponent();
+          
         }
 
         private void HabilitaBtn()
         {
-            if (dataGrid.SelectedItem == dataGrid.SelectedCells)
-            {
+            if (dataGrid.SelectedItem  == dataGrid.SelectedCells)
                 btnSalvar.IsEnabled = false;
 
-            }
             else
-            {
-                btnSalvar.IsEnabled = true;
-            }
+                btnSalvar.IsEnabled = true;   
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            ClienteDB.CarregarDadosNoDataGrid(dataGrid);
-           
+        {      
+            ClienteDB.CarregarDadosNoDataGrid(dataGrid);       
         }
         
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -86,7 +81,6 @@ namespace Beauty_Motos
                     break;
                 }                              
             }
-            
             return existeCPF;
         }
 
@@ -180,9 +174,8 @@ namespace Beauty_Motos
             if (pergunta.retorno == true)
             {
                 if (VerificarSeExiteCPFCliente() == false)
-                {
-                    MessageBox.Show("CPF inexistente na base de dados.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);        
-                }
+                    MessageBox.Show("CPF inexistente na base de dados.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error); 
+                
                 else
                 {
                     Cliente cliente = new Cliente(txtNomeCompleto.Text, txtTelefoneCelular.Text, txtCPF.Text, txtLogradouro.Text, txtCEP.Text, txtBairro.Text, txtCidade.Text);
@@ -193,17 +186,20 @@ namespace Beauty_Motos
                 }
             }
             else
-            {
-                MessageBox.Show("Informe o CPF do cliente.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
+                MessageBox.Show("Informe o CPF do cliente.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);            
         }
 
         public void PesquisarCliente()
         {
-                var consulta = ClienteDB.listaCliente.Where(cliente => cliente.CPF == Mascara_Texbox.RemoveMascara(txtPesquisa.Text));
-                dataGrid.ItemsSource = consulta;
-                // var consulta = from cliente in ClienteDB.listaCliente where cliente.CPF == txtpesquisa select cliente;
+           /* ClienteDB.conexao = new SqlConnection(ClienteDB.stringConn);
+            string sql = $"SELECT * FROM TB_Cliente WHERE CPF LIKE '%{ txtPesquisa.Text}%';";
+            SqlCommand comando = new SqlCommand(sql, ClienteDB.conexao);
+            ClienteDB.conexao.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(comando);
+            da.Fill(dt);
+            ClienteDB.conexao.Close();
+            da.Dispose();*/
         }
 
         private void btnVoltar_Click(object sender, RoutedEventArgs e)
@@ -296,6 +292,13 @@ namespace Beauty_Motos
 
         private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string qntdCaracter = txtPesquisa.Text;
+            if( qntdCaracter.Length > 0)
+            {
+                var consulta = ClienteDB.listaCliente.Where(cliente => cliente.CPF.Contains (Mascara_Texbox.RemoveMascara(txtPesquisa.Text)));
+                dataGrid.ItemsSource = consulta;
+                // var consulta = from cliente in ClienteDB.listaCliente where cliente.CPF == txtpesquisa select cliente;
+            }
             txtPesquisa.Text = Mascara_Texbox.MascaraCpf(txtPesquisa.Text);
         }
     }

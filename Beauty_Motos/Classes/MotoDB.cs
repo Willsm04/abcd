@@ -17,11 +17,11 @@ namespace Beauty_Motos
         public static void CarregarDadosNoDataGrid(DataGrid datagrid)
         {
             listaMoto = new List<Moto>();
-            string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
             datagrid.ItemsSource = null;
+            string connstring = ConfigurationManager.ConnectionStrings["stringDeConexao"].ConnectionString;
+
             using (SqlConnection conexao = new SqlConnection(connstring))
             {
-
                 conexao.Open();
                 SqlCommand comando = new SqlCommand($"SELECT * FROM TB_Moto", conexao);
                 SqlDataReader reader = comando.ExecuteReader();
@@ -36,7 +36,6 @@ namespace Beauty_Motos
                     Moto moto = new Moto(idMoto, nome, categoria, preco, dataFabricacao);
 
                     listaMoto.Add(moto);
-
                 }
 
                 datagrid.ItemsSource = listaMoto;
@@ -44,6 +43,7 @@ namespace Beauty_Motos
             }
         }
 
+        #region CRUD
         public static string Insert(Moto moto)
         {
             string sql = @"INSERT INTO TB_Moto
@@ -168,6 +168,8 @@ namespace Beauty_Motos
             return retorno;
 
         }
+
+        #endregion
 
     }
 }

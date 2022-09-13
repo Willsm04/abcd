@@ -16,13 +16,13 @@ namespace Beauty_Motos
         }
 
         public string Usuario { get; set; }
-        public string Senha { get; private set; }
+        private string Senha { get; set; }
 
         private string passwordUser = "safeweb";
 
         public bool ValidaLogin()
         {
-            bool senha = false;
+            bool senhaHeValida = false;
 
             if (string.IsNullOrEmpty(Usuario))
                 MessageBox.Show("Informe o seu usuario", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -32,12 +32,12 @@ namespace Beauty_Motos
 
             else
             {
-                MessageBox.Show($"Bem vindo {Usuario}", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information); 
-                senha = true; 
+                MessageBox.Show($"Bem vindo {Usuario}", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+                senhaHeValida = true; 
                 Senha = passwordUser;
             }
 
-            return senha;
+            return senhaHeValida;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Beauty_Motos"
         mc:Ignorable="d"
-          Title="Motos" Height="498" Width="1399" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="Imagens/moto.png" Loaded="Window_Loaded_1">
+          Title="Motos" Height="511" Width="1335" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="Imagens/moto.png" Loaded="Window_Loaded_1">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFB0DE8F"/>
@@ -13,23 +13,25 @@
         </LinearGradientBrush>
     </Window.Background>
 
-    <Grid Margin="-6,0,0,0">
-        <Label x:Name="label" Content="Cadastro de Motos" HorizontalAlignment="Left" Margin="251,12,0,0" VerticalAlignment="Top" Height="45" Width="340" FontSize="30" FontFamily="Arial Black" HorizontalContentAlignment="Center"/>
-        <Label Content="Nome da Moto: " HorizontalAlignment="Left" Margin="67,178,0,0" VerticalAlignment="Top" Height="37" Width="179" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
-        <Label Content="Preço R$: " HorizontalAlignment="Left" Margin="91,300,0,0" VerticalAlignment="Top" Height="37" Width="122" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
-        <Label Content="Data de Fabricação: " HorizontalAlignment="Left" Margin="45,360,0,0" VerticalAlignment="Top" Height="37" Width="227" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
-        <Label Content="Categoria: " HorizontalAlignment="Left" Margin="88,243,0,0" VerticalAlignment="Top" Height="36" Width="123" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
-        <Label Content="Id: " HorizontalAlignment="Left" Margin="130,117,0,0" VerticalAlignment="Top" Height="37" Width="58" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
-        <TextBox x:Name="txtNomeMoto" MaxLength="30" HorizontalAlignment="Left" Margin="280,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="314" FontSize="23" MaxLines="1" TabIndex="1" BorderBrush="#FF989898"/>
-        <TextBox x:Name="txtCat" MaxLength="13" HorizontalAlignment="Left" Margin="279,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="312" FontSize="23" MaxLines="1" TabIndex="2" BorderBrush="#FF989898" PreviewTextInput="txtCat_PreviewTextInput"/>
-        <TextBox x:Name="txtPreco" MaxLength="10" HorizontalAlignment="Left" Margin="281,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" FontSize="23" MaxLines="1" TabIndex="3" BorderBrush="#FF989898"/>
-        <TextBox x:Name="txtDataFabricacao" MaxLength="10" HorizontalAlignment="Left" Margin="280,364,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="312" FontSize="23" MaxLines="1" TabIndex="4" BorderBrush="#FF989898" TextChanged="txtDataFabricacao_TextChanged" PreviewTextInput="txtDataFabricacao_PreviewTextInput_1"/>
-        <TextBox x:Name="txtId" MaxLength="9" HorizontalAlignment="Left" Margin="280,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="316" FontSize="23" MaxLines="1" TabIndex="0" BorderBrush="#FF989898"/>
-        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Left" Margin="336,432,0,0" Width="114" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnSalvar_Click" TabIndex="5" Height="35" VerticalAlignment="Top" RenderTransformOrigin="2.582,16.573"/>
-        <Button x:Name="btnVoltar" Content="Voltar" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnVoltar_Click" TabIndex="6" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="67" Margin="0,-1,1331,0"/>
-        <Button x:Name="Fechar" Content="X" HorizontalAlignment="Left" Margin="1377,0,0,467" VerticalAlignment="Bottom" Width="28" FontSize="20" FontWeight="Bold" Foreground="#FFF1E6E6" Background="#FFFB0000" BorderBrush="#FF290303" Click="EventoClickBtnFechar" Height="32"/>
-        <DataGrid Name="dataGrid" Margin="809,99,160,0" IsSynchronizedWithCurrentItem="True" AutoGenerateColumns="true" SelectionMode="Single" SelectionUnit="CellOrRowHeader" Height="281" VerticalAlignment="Top" SelectionChanged="dataGrid_SelectionChanged"  />
-        <Button x:Name="btnDeletar" Content="Deletar" HorizontalAlignment="Left" Margin="821,429,0,0" Width="107" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnDeletar_Click" TabIndex="9" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.495,0.609"/>
-        <Button x:Name="btnAlterar" Content="Alterar" HorizontalAlignment="Left" Margin="1138,0,0,37" Width="107" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnAlterar_Click" TabIndex="9" Height="34" VerticalAlignment="Bottom" RenderTransformOrigin="0.495,0.609"/>
+    <Grid Margin="-6,0,0,10">
+        <Label x:Name="label" Content="Cadastro de Motos" HorizontalAlignment="Left" Margin="251,8,0,0" VerticalAlignment="Top" Height="45" Width="340" FontSize="30" FontFamily="Arial Black" HorizontalContentAlignment="Center"/>
+        <Label Content="Nome da Moto: " HorizontalAlignment="Left" Margin="83,214,0,0" VerticalAlignment="Top" Height="37" Width="179" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
+        <Label Content="Preço R$: " HorizontalAlignment="Left" Margin="107,336,0,0" VerticalAlignment="Top" Height="37" Width="122" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
+        <Label Content="Data de Fabricação: " HorizontalAlignment="Left" Margin="61,396,0,0" VerticalAlignment="Top" Height="37" Width="227" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
+        <Label Content="Categoria: " HorizontalAlignment="Left" Margin="114,278,0,0" VerticalAlignment="Top" Height="36" Width="122" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
+        <Label Content="Id: " HorizontalAlignment="Left" Margin="146,153,0,0" VerticalAlignment="Top" Height="37" Width="58" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
+        <TextBox x:Name="txtNomeMoto" MaxLength="30" HorizontalAlignment="Left" Margin="296,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="314" FontSize="23" MaxLines="1" TabIndex="1" BorderBrush="#FF989898"/>
+        <TextBox x:Name="txtCat" MaxLength="13" HorizontalAlignment="Left" Margin="300,281,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="312" FontSize="23" MaxLines="1" TabIndex="2" BorderBrush="#FF989898" PreviewTextInput="txtCat_PreviewTextInput"/>
+        <TextBox x:Name="txtPreco" MaxLength="10" HorizontalAlignment="Left" Margin="297,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" FontSize="23" MaxLines="1" TabIndex="3" BorderBrush="#FF989898"/>
+        <TextBox x:Name="txtDataFabricacao" MaxLength="10" HorizontalAlignment="Left" Margin="296,400,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="312" FontSize="23" MaxLines="1" TabIndex="4" BorderBrush="#FF989898" TextChanged="txtDataFabricacao_TextChanged" PreviewTextInput="txtDataFabricacao_PreviewTextInput_1"/>
+        <TextBox x:Name="txtId" MaxLength="9" HorizontalAlignment="Left" Margin="296,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="316" FontSize="23" MaxLines="1" TabIndex="0" BorderBrush="#FF989898"/>
+        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Left" Margin="352,459,0,0" Width="114" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnSalvar_Click" TabIndex="5" Height="35" VerticalAlignment="Top" RenderTransformOrigin="2.582,16.573"/>
+        <Button x:Name="btnVoltar" Content="Voltar" FontSize="14" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnVoltar_Click" TabIndex="9" Height="32" VerticalAlignment="Top" HorizontalAlignment="Right" Width="67" Margin="0,-2,1271,0"/>
+        <Button x:Name="Fechar" TabIndex="10" Content="X" HorizontalAlignment="Left" Margin="1313,0,0,471" VerticalAlignment="Bottom" Width="28" FontSize="20" FontWeight="Bold" Foreground="#FFF1E6E6" Background="#FFFB0000" BorderBrush="#FF290303" Click="EventoClickBtnFechar" Height="32"/>
+        <DataGrid Name="dataGrid" Margin="837,159,80,0" IsSynchronizedWithCurrentItem="True" AutoGenerateColumns="true" SelectionUnit="FullRow" SelectionMode="Extended" Height="281" VerticalAlignment="Top" SelectionChanged="dataGrid_SelectionChanged"  />
+        <Button x:Name="btnDeletar" Content="Deletar" HorizontalAlignment="Left" Margin="838,461,0,0" Width="107" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnDeletar_Click" TabIndex="6" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.495,0.609"/>
+        <Button x:Name="btnAlterar" Content="Alterar" HorizontalAlignment="Left" Margin="1154,457,0,0" Width="107" FontSize="17" FontStretch="Normal" FontStyle="Normal" FontWeight="Medium" Click="btnAlterar_Click" TabIndex="7" Height="34" VerticalAlignment="Top" RenderTransformOrigin="0.495,0.609"/>
+        <TextBox x:Name="txtPesquisa" MaxLength="9" HorizontalAlignment="Left" Margin="566,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="316" FontSize="23" MaxLines="1" TabIndex="8" BorderBrush="#FF989898" TextChanged="txtPesquisa_TextChanged"/>
+        <Label Content="Pesquisa Id: " HorizontalAlignment="Left" Margin="400,79,0,0" VerticalAlignment="Top" Height="37" Width="147" FontSize="25" HorizontalContentAlignment="Right" FontFamily="Franklin Gothic Medium"/>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -23,6 +24,7 @@ namespace Beauty_Motos
     /// </summary>
     public partial class Motos : Window
     {
+
         public Motos()
         {
             InitializeComponent();
@@ -43,7 +45,7 @@ namespace Beauty_Motos
                     txtCat.Text = linha.Cat;
                     txtPreco.Text = linha.Preco;
                     txtDataFabricacao.Text = linha.DataFabricacao;
-
+                    break;
                 }
 
             }
@@ -59,17 +61,14 @@ namespace Beauty_Motos
         public bool VerificaSeExiteIdMoto()
         {
             bool existe = false;
-            foreach (var linha in MotoDB.listaMoto)
-            {
-                if (linha.Id.Equals(txtId.Text))
-                {
-                    existe = true;
-                    break;
-                }
-            }
 
-            return existe;
+            var consulta = MotoDB.listaMoto.Where(moto => moto.Id.Equals(txtId.Text)).ToList();
+            if (consulta.Count == 1)
+                existe = true;
+
+            return existe;    
         }
+
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
             Moto moto = new Moto(txtId.Text, txtNomeMoto.Text, txtCat.Text, txtPreco.Text, txtDataFabricacao.Text);
@@ -77,9 +76,8 @@ namespace Beauty_Motos
             if (Valida_FrmMoto.ValidaCamposDoFormMotos(moto))
             {
                 if (VerificaSeExiteIdMoto() == true)
-                {
                     MessageBox.Show("Id da moto ja existente na base de dados", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+
                 else
                 {
                     MotoDB.AddMotoNoSQL(moto);
@@ -92,11 +90,11 @@ namespace Beauty_Motos
 
         private void btnAlterar_Click(object sender, RoutedEventArgs e)
         {
-            Moto moto = new Moto(txtId.Text, txtNomeMoto.Text, txtCat.Text, txtPreco.Text, txtDataFabricacao.Text);
             if (txtId.Text != "")
             {
                 if (VerificaSeExiteIdMoto() == true)
                 {
+                    Moto moto = new Moto(txtId.Text, txtNomeMoto.Text, txtCat.Text, txtPreco.Text, txtDataFabricacao.Text);
                     MotoDB.AlterarDadosDoSQL(moto);
                     MotoDB.CarregarDadosNoDataGrid(dataGrid);
                     MessageBox.Show("Dados alterados com sucesso. ", "Mensagem de sucesso ", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -104,14 +102,12 @@ namespace Beauty_Motos
                 }
             }
             else
-            {
                 MessageBox.Show("Id da moto inexistente na base de dados.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            
         }
 
         private void btnDeletar_Click(object sender, RoutedEventArgs e)
         {
-            Moto moto = new Moto(txtId.Text, txtNomeMoto.Text, txtCat.Text, txtPreco.Text, txtDataFabricacao.Text);
             FrmPerguntaSeDeleta pergunta = new FrmPerguntaSeDeleta();
             pergunta.label.Content = "Deseja realmente excluir?";
             pergunta.ShowDialog();
@@ -120,10 +116,11 @@ namespace Beauty_Motos
             {
                 if (string.IsNullOrEmpty(txtId.Text))
                 {
-                    MessageBox.Show("Digite ou selecione o Id que você deseja alterar.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Digite ou selecione o Id que você deseja deletar.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
+                    Moto moto = new Moto(txtId.Text, txtNomeMoto.Text, txtCat.Text, txtPreco.Text, txtDataFabricacao.Text);
                     MotoDB.DeletarMotoDoSQL(moto);
                     MessageBox.Show("Moto excluida com sucesso.", "Mensagem de Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
                     MotoDB.CarregarDadosNoDataGrid(dataGrid);
@@ -131,10 +128,7 @@ namespace Beauty_Motos
                 }
             }
             else
-            {
                 MessageBox.Show("Informe o Id da moto.", "Mensagem de Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
         }
 
         private void btnVoltar_Click(object sender, RoutedEventArgs e)
@@ -184,7 +178,16 @@ namespace Beauty_Motos
         {
             BloquearNumerosDaTexbox(sender, e);
         }
-    
+
+        private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string qntdCaracter = txtPesquisa.Text;
+            if(qntdCaracter.Length > 0)
+            {
+                var consulta = MotoDB.listaMoto.Where(moto => moto.Id.Contains(txtPesquisa.Text));
+                dataGrid.ItemsSource = consulta;
+            }
+        }
     }
 }
 
